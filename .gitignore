@@ -1,0 +1,28 @@
+    # Virtual environment
+    venv/
+    shoppingKart-env/
+
+    # Python bytecode
+    *.pyc
+    __pycache__/
+
+    # Database file (if using SQLite)
+    db.sqlite3
+
+    # Media and static files (if managed separately or generated)
+    media/
+    static/
+    # IDE-specific files
+    .vscode/
+    .idea/
+
+    # Local settings (containing sensitive information)
+    local_settings.py
+
+    # Log files
+    *.log
+
+    # Operating system generated files
+    .DS_Store
+    Thumbs.db
+    commands.txt

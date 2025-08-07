@@ -1,0 +1,12 @@
+Stage#1
+docker build --tag shoppingkart .
+docker run --publish 8000:8000 shoppingkart
+Stage#2
+docker-compose-build
+docker-compose run --rm app django-admin startproject shoppingkart.
+docker-compose up
+Stage#3
+docker-compose build
+docker-compose run --rm app django-admin startproject shoppingkart .
+docker-compose up
+docker exec -it shoppingkart /bin/bash
