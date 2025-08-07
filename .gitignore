@@ -1,28 +1,44 @@
-    # Virtual environment
-    venv/
-    shoppingKart-env/
+# Ignore everything
+*
 
-    # Python bytecode
-    *.pyc
-    __pycache__/
+# Except these:
+!.gitignore
+!commands.txt
 
-    # Database file (if using SQLite)
-    db.sqlite3
+# Allow project files and folders
+!manage.py
+!requirements.txt
+!docker-compose.yml
+!Dockerfile
 
-    # Media and static files (if managed separately or generated)
-    media/
-    static/
-    # IDE-specific files
-    .vscode/
-    .idea/
+# Allow Django project and app directories (edit as needed)
+!shoppingkart/
+!app/
 
-    # Local settings (containing sensitive information)
-    local_settings.py
+# Now ignore unnecessary inside those folders
+shoppingkart/__pycache__/
+shoppingkart/*.pyc
+app/__pycache__/
+app/*.pyc
 
-    # Log files
-    *.log
-
-    # Operating system generated files
-    .DS_Store
-    Thumbs.db
-    commands.txt
+# Common ignores
+__pycache__/
+*.py[cod]
+*.log
+*.pot
+*.pyc
+db.sqlite3
+.env
+*.sqlite3
+*.pyc
+*.pyo
+*.so
+.DS_Store
+*.egg-info/
+*.bak
+*.swp
+.vscode/
+.idea/
+node_modules/
+staticfiles/
+media/
