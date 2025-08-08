@@ -1,12 +1,10 @@
 {% load static %}
 <header class="section-header">
-
-
 	<section class="header-main border-bottom">
 		<div class="container-fluid">
 			<div class="row align-items-center">
 				<div class="col-lg-2 col-md-3 col-6">
-					<a href="#" class="brand-wrap">
+					<a href="{% url 'home' %}" class="brand-wrap">
 						<h2 class="logo text-logo ml-3">ShoppingKart</h2>
 					</a> <!-- brand-wrap.// -->
 				</div>
@@ -23,7 +21,7 @@
 						</div>
 					</div> <!-- category-wrap.// -->
 				</div> <!-- col.// -->
-				<a href="#" class="btn btn-outline-primary">Store</a>
+				<a href="{% url 'home' %}" class="btn btn-outline-primary">Store</a>
 				<div class="col-lg  col-md-6 col-sm-12 col">
 					<form action="#" class="search">
 						<div class="input-group w-100">
@@ -39,15 +37,24 @@
 				</div> <!-- col.// -->
 				<div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
 					<div class="d-flex justify-content-end mb-3 mb-lg-0">
+						{% if request.user.is_authenticated %}
 
-						
-							<div class="widget-header mt-2">
+							<div class="widget-header">
+								<small class="title text-muted">Welcome {{ request.user.username }}</small>
 								<div>
-									<a href="#">Login</a> <span class="dark-transp"> | </span>
-									<a href="#"> Register</a>
+									<a href="{% url 'dashboard' %}">Dashboard</a> <span class="dark-transp"> | </span>
+									<a href="{% url 'logout' %}"> Logout</a>
 								</div>
 							</div>
-						
+
+						{% else %}
+							<div class="widget-header mt-2">
+								<div>
+									<a href="{% url 'login' %}">Login</a> <span class="dark-transp"> | </span>
+									<a href="{% url 'register' %}"> Register</a>
+								</div>
+							</div>
+						{% endif %}
 						<a href="#" class="widget-header pl-3 ml-3 mr-5">
 							<div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i>
 							</div>

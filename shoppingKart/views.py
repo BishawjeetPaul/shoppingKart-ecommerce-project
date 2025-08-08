@@ -2,5 +2,5 @@ from django.shortcuts import render
 
 
 
-def dashboard(request):
+def home(request):
     return render(request, 'dashboard.html')
