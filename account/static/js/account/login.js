@@ -16,7 +16,7 @@ const setError = (element, message) => {
     const errorDisplay = inputControl.querySelector('.error');
 
     errorDisplay.innerText = message;
-    errorDisplay.style.fontSize = '10px'; // 👈 Set font size here
+    errorDisplay.style.fontSize = '12px'; // 👈 Set font size here
     errorDisplay.style.color = 'red';     // optional: text color
 
     inputControl.classList.add('error');
