@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">User Profile</h4>
+                </div>
+
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Profile Image -->
+                        <div class="text-center mb-4">
+                            {% if user.profile.image %}
+                                <img src="{{ user.profile.image.url }}" class="rounded-circle shadow-sm" width="120" height="120" style="object-fit: cover;" alt="User Image">
+                            {% else %}
+                                <img src="{% static 'default-profile.png' %}" class="rounded-circle shadow-sm" width="120" height="120" alt="Default Image">
+                            {% endif %}
+                            <div class="mt-2">
+                                <input type="file" name="image" class="form-control-file">
+                            </div>
+                        </div>
+
+                        <!-- Username -->
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" class="form-control" value="{{ user.username }}" required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group mt-3">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="form-group mt-3">
+                            <label for="phone">Phone Number</label>
+                            <input type="text" name="phone" class="form-control" value="{{ user.profile.phone }}">
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-success">Save Changes</button>
+                            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

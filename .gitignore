@@ -1,44 +1,39 @@
-# Ignore everything
-*
-
-# Except these:
-!.gitignore
-!commands.txt
-
-# Allow project files and folders
-!manage.py
-!requirements.txt
-!docker-compose.yml
-!Dockerfile
-
-# Allow Django project and app directories (edit as needed)
-!shoppingkart/
-!app/
-
-# Now ignore unnecessary inside those folders
-shoppingkart/__pycache__/
-shoppingkart/*.pyc
-app/__pycache__/
-app/*.pyc
-
-# Common ignores
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
-*.log
-*.pot
 *.pyc
-db.sqlite3
-.env
-*.sqlite3
-*.pyc
+*.pyd
 *.pyo
-*.so
-.DS_Store
 *.egg-info/
-*.bak
-*.swp
-.vscode/
-.idea/
-node_modules/
-staticfiles/
-media/
+
+# Environments
+.env/
+venv/
+env/
+*.sqlite3 # For SQLite database files, e.g., db.sqlite3
+.DS_Store # macOS specific
+Thumbs.db # Windows specific
+
+# IDE specific files
+.idea/ # PyCharm
+.vscode/ # VS Code
+*.sublime-project
+*.sublime-workspace
+
+# Media and Static files
+/media/
+/static/
+
+# Logs
+*.log
+
+# Ignore commands.txt file
+commands.txt
+
+# Test and Coverage
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+
+# Sensitive Information
+local_settings.py # Or any other file containing sensitive local settings
