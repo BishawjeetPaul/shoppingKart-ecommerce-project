@@ -1,3 +1,4 @@
+// registration validation elements.
 const form = document.getElementById('form');
 const firstName = document.getElementById('first_name');
 const lastName = document.getElementById('last_name');
@@ -15,18 +16,20 @@ form.addEventListener('submit', e => {
     }
 });
 
+// setting function for error message
 const setError = (element, message) => {
     const inputControl = element.parentElement;
     const errorDisplay = inputControl.querySelector('.error');
 
     errorDisplay.innerText = message;
-    errorDisplay.style.fontSize = '12px'; // 👈 Set font size here
+    errorDisplay.style.fontSize = '12px'; // Set font size here
     errorDisplay.style.color = 'red';     // optional: text color
 
     inputControl.classList.add('error');
     inputControl.classList.remove('success');
 };
 
+// setting function for success message
 const setSuccess = element => {
     const inputControl = element.parentElement;
     const errorDisplay = inputControl.querySelector('.error');

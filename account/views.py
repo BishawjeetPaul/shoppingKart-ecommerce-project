@@ -1,8 +1,17 @@
 from django.shortcuts import render, redirect
 from account.models import Account
 from django.contrib import messages, auth
-from django.contrib.auth import login, logout
 from .EmailBackEnd import EmailBackEnd
+# verification email
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import EmailMessage
+
+
+
 
 # this function for user registration or user verification via email address.
 def register(request):
@@ -28,6 +37,23 @@ def register(request):
                     phone_number=phone_number
                 )
                 user.save()
+
+                # USER ACTIVATION
+                current_site = get_current_site(request) # get the current site
+                mail_subject = 'Please activate your account'
+                # send verification message details in user email address
+                message = render_to_string('account/account_verification_mail.html', {
+                    'user': user,
+                    'domain': current_site,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': default_token_generator.make_token(user)
+                })
+
+                # send email to the user
+                to_mail = email
+                send_email = EmailMessage(mail_subject, message, to=[to_mail])
+                send_email.send()
+
                 messages.success(request, "Thank you for registering with us.")
                 return redirect("register")
             except:
@@ -52,12 +78,12 @@ def login_user(request):
             return redirect('login')
     return render(request, 'login.html')
 
-
+# this function for user logout.
 def logout_user(request):
-    logout(request)
+    auth.logout(request)
     messages.success(request, "You are logged out.")
     return redirect('login')
 
-
+# this function for admin panel
 def dashboard(request):
     return render(request, 'includes/main-dashboard.html')
