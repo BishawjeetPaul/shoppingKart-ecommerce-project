@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from account.models import Account
+from account.models import CustomUser
 from django.contrib import messages, auth
 from .EmailBackEnd import EmailBackEnd
 # verification email
@@ -28,14 +28,15 @@ def register(request):
 
         if (password == password_confirm):
             try:
-                user = Account.objects.create_user(
+                user = CustomUser.objects.create_user(
                     first_name=first_name,
                     last_name=last_name,
                     email=email,
                     username=username,
                     password=password,
-                    phone_number=phone_number
+                    user_type=2
                 )
+                user.customer.phone_number=phone_number
                 user.save()
 
                 # USER ACTIVATION
@@ -72,6 +73,7 @@ def login_user(request):
         user = EmailBackEnd.authenticate(request, username=email, password=password)
         if user is not None:
             auth.login(request, user)
+            
             return redirect('home')
         else:
             messages.error(request, "Invalid login credentials.")
@@ -87,3 +89,4 @@ def logout_user(request):
 # this function for admin panel
 def dashboard(request):
     return render(request, 'includes/main-dashboard.html')
+
