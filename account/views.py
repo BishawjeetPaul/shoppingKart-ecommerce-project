@@ -72,9 +72,12 @@ def login_user(request):
 
         user = EmailBackEnd.authenticate(request, username=email, password=password)
         if user is not None:
-            auth.login(request, user)
-            
-            return redirect('home')
+            if user.user_type=='1':
+                auth.login(request, user)
+                return redirect('admin-panel')
+            elif user.user_type=='2':
+                auth.login(request, user)
+                return redirect('home')
         else:
             messages.error(request, "Invalid login credentials.")
             return redirect('login')
