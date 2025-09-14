@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from account.models import CustomUser
 
 
 # this function for admin-customization.
@@ -13,6 +14,7 @@ def add_product(request):
 
 # This function for manage products.
 def manage_products(request):
-    return render(request, 'panel/products/manage-products.html')
+    customers = CustomUser.objects.filter(user_type=2)
+    return render(request, 'panel/products/manage-products.html', {'customers': customers})
 
 

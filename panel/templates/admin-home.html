@@ -20,8 +20,10 @@
         <!-- inject:css -->
         <link rel="stylesheet" href="{% static 'css/vertical-layout-light/style.css' %}">
         <!-- endinject -->
-         <!-- Custome-CSS -->
-        <link rel="stylesheet" href="{% static 'css/panel/style.css' %}">
+        <!-- Custome-CSS -->
+        {% block style %}
+            <link rel="stylesheet" href="{% static 'css/panel/style.css' %}">
+        {% endblock style %}
         <!-- endcustom-CSS -->
         <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" />
     </head>
@@ -74,7 +76,10 @@
         <!-- endinject -->
 
         <!-- Custom js for this page-->
-        <script src="{% static 'js/dashboard.js' %}"></script>
+        {% block scripts %}
+		    <script src="{% static 'js/dashboard.js' %}"></script>
+	    {% endblock scripts %}
+        
         <script src="{% static 'js/Chart.roundedBarCharts.js' %}"></script>
         <!-- End custom js for this page-->
 
