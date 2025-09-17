@@ -32,8 +32,8 @@
                                         <td class="text-center">{{ category.slug }}</td>
                                         <td class="text-center">{{ category.description }}</td>
                                         <td class="text-center">
-                                            <a href="#" class="btn btn-info">Update</a>&nbsp;
-                                            <a href="#" class="btn btn-danger">Delete</a>
+                                            <a href="{% url 'edit-category' category.id %}" class="btn btn-info">Update</a>&nbsp;
+                                            <a href="{% url 'delete-category' category.id %}" class="btn btn-danger">Delete</a>
                                         </td>
                                     </tr>
                                     {% endfor %}
