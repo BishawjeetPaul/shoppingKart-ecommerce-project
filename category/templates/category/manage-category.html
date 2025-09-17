@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <h3 class="card-title" style="color: rgb(46, 237, 16);">Manage - Category</h3>
                         <div class="table-responsive">
-                            <table class="table table-hover">
+                            <table class="table table-hover" >
                                 <thead>
                                     <tr>
                                         <th class="text-center" style="font-size: 15px;">ID</th>
@@ -25,7 +25,7 @@
                                     {% for category in categories %}
                                     <tr>
                                         <td class="text-center" style="font-size: 15px;">{{forloop.counter}}</td>
-                                        <td class="text-center"><img src="{{ category.category_image.url }}" style="height:80px; width:auto; max-width:110px; border-radius:5px; object-fit:cover;"></td>
+                                        <td class="text-center"><img src="{{ category.category_image.url }}" style="height:70px; width:auto; max-width:110px; border-radius:5px; object-fit:cover;"></td>
                                         <td class="text-center">{{ category.category_name }}</td>
                                         <td class="text-center">{{ category.slug }}</td>
                                         <td class="text-center">{{ category.description }}</td>
