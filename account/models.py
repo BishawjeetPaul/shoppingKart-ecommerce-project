@@ -8,9 +8,9 @@ from django.dispatch import receiver
 
 
 class CustomUser(AbstractUser):
-    id             = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user_type_data = ((1,"ADMIN"), (2,"Customers"))
-    user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
+    id              = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user_type_data  = ((1,"ADMIN"), (2,"Customers"))
+    user_type       = models.CharField(default=1, choices=user_type_data, max_length=10)
 
 
 class AdminUser(models.Model):
