@@ -6,13 +6,14 @@ from django.dispatch import receiver
 
 
 
-
+# This model table is used for CustomUsers.
 class CustomUser(AbstractUser):
     id              = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_type_data  = ((1,"ADMIN"), (2,"Customers"))
     user_type       = models.CharField(default=1, choices=user_type_data, max_length=10)
 
 
+# This model table is used for Main-User.
 class AdminUser(models.Model):
     id              = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     admin           = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -23,6 +24,7 @@ class AdminUser(models.Model):
     objects         = models.Manager()
 
 
+# This model table is used for Customers.
 class Customer(models.Model):
     id              = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     admin           = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -33,6 +35,7 @@ class Customer(models.Model):
     objects         = models.Manager()
 
 
+# This model table is used for Customer-Address.
 class CustomerAddress(models.Model):
     """
     Stores multiple address for each customer (User).

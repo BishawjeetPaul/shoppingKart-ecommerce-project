@@ -1,0 +1,77 @@
+{% extends 'admin-panel.html' %}
+
+{% block content %}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title" style="color: rgb(46, 237, 16);">add new - Product</h3>
+                        
+                        <form class="forms-sample" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="exampleInputName1">Product name</label>
+                                <input type="text" class="form-control" name="product_name" placeholder="Product name">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleTextarea1">Description</label>
+                                <textarea class="form-control" rows="4" name="product_description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail3">Product price</label>
+                                <input type="text" class="form-control" name="product_price" placeholder="Product price">
+                            </div>
+                            <div class="form-group">
+                                <label>File upload</label>
+                                <!-- Hidden file input -->
+                                <input type="file" name="product_image" class="file-upload-default" id="fileUpload" style="display:none;">
+                                
+                                <div class="input-group col-xs-12">
+                                    <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                                    <span class="input-group-append">
+                                        <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleSelectGender">Category</label>
+                                <select class="form-control" name="category" required>
+                                    <option></option>
+                                    {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category.category_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputCity1">Stock</label>
+                                <input type="text" class="form-control" name="stock" placeholder="Enter number of stock">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                            <a href="{% url 'admin-panel' %}" class="btn btn-light">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 🔥 JavaScript Fix -->
+<script>
+    // when "Upload" button is clicked, trigger hidden file input
+    document.querySelector(".file-upload-browse").addEventListener("click", function () {
+        document.querySelector("#fileUpload").click();
+    });
+
+    // when file is selected, show file name in text field
+    document.querySelector("#fileUpload").addEventListener("change", function () {
+        let fileName = this.files[0] ? this.files[0].name : "Upload Image";
+        document.querySelector(".file-upload-info").value = fileName;
+    });
+</script>
+
+{% endblock content %}

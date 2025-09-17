@@ -37,11 +37,11 @@ def edit_category(request, category_id):
 
     if request.method == 'POST':
         category_name = request.POST.get('category_name')
-        description = request.POST.get('description')
+        category_description = request.POST.get('description')
 
         try:
             category.category_name = category_name
-            category.description = description
+            category.category_description = category_description
             # Handle image upload
             if request.FILES.get('category_image'):
                 category.category_image = request.FILES['category_image']
