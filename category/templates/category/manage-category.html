@@ -1,0 +1,50 @@
+{% extends 'admin-panel.html' %}
+
+{% block content %}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title" style="color: rgb(46, 237, 16);">Manage - Category</h3>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="font-size: 15px;">ID</th>
+                                        <th class="text-center" style="font-size: 15px;">Image</th>
+                                        <th class="text-center" style="font-size: 15px;">Category Name</th>
+                                        <th class="text-center" style="font-size: 15px;">Slug</th>
+                                        <th class="text-center" style="font-size: 15px;">Description</th>
+                                        <th class="text-center" style="font-size: 15px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for category in categories %}
+                                    <tr>
+                                        <td class="text-center" style="font-size: 15px;">{{forloop.counter}}</td>
+                                        <td class="text-center"><img src="{{ category.category_image.url }}" style="height:80px; width:auto; max-width:110px; border-radius:5px; object-fit:cover;"></td>
+                                        <td class="text-center">{{ category.category_name }}</td>
+                                        <td class="text-center">{{ category.slug }}</td>
+                                        <td class="text-center">{{ category.description }}</td>
+                                        <td class="text-center">
+                                            <a href="#" class="btn btn-info">Update</a>&nbsp;
+                                            <a href="#" class="btn btn-danger">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- main-panel ends -->
+
+{% endblock content %}

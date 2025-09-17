@@ -13,7 +13,7 @@ def add_product(request):
 
 
 # This function for manage products.
-def manage_products(request):
+def manage_product(request):
     customers = CustomUser.objects.filter(user_type=2)
     return render(request, 'panel/products/manage-products.html', {'customers': customers})
 

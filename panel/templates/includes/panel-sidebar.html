@@ -12,25 +12,26 @@
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                     <i class="icon-layout menu-icon"></i>
-                    <span class="menu-title">Products</span>
+                    <span class="menu-title">Categories</span>
                     <i class="menu-arrow"></i>
                     </a>
                     <div class="collapse" id="ui-basic">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="{% url 'add-products' %}">Add Product</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="{% url 'manage-products' %}">Manage Product</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{% url 'add-category' %}">Add Category</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{% url 'manage-category' %}">Manage Category</a></li>
                     </ul>
                     </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
                     <i class="icon-columns menu-icon"></i>
-                    <span class="menu-title">Form elements</span>
+                    <span class="menu-title">Products</span>
                     <i class="menu-arrow"></i>
                     </a>
                     <div class="collapse" id="form-elements">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Basic Elements</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'add-product' %}">Add Product</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'manage-product' %}">Manage Product</a></li>
                     </ul>
                     </div>
                 </li>
