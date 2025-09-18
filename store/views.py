@@ -13,10 +13,10 @@ def store(request, category_slug=None):
         products = Product.objects.filter(category=categories, isDelete=False)
         product_count = products.count()
     else:
-        products        = Product.objects.all().filter(isDelete=False)
+        products = Product.objects.all().filter(isDelete=False)
 
-    categories      = Category.objects.all().filter(isDelete=False)
-    product_count   = products.count()
+    categories = Category.objects.all().filter(isDelete=False)
+    product_count = products.count()
 
     context = {
         'products': products,

@@ -3,6 +3,7 @@ from django.db import models
 # from category.models import Category
 from django.utils.text import slugify
 from django.utils.timezone import now
+from django.urls import reverse
 
 
 # this function is used to generate category id followed character CAT-6 digit random number
@@ -38,6 +39,9 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'category'
         verbose_name_plural = 'categories'
+
+    def get_url(self):
+        return reverse('product_by_category', args=[self.slug])
 
     def save(self, *args, **kwargs):
         if not self.slug:  # Only set slug if empty
