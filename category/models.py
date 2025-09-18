@@ -35,6 +35,10 @@ class Category(models.Model):
     created_at              = models.DateTimeField(auto_now_add=True)
     updated_at              = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+
     def save(self, *args, **kwargs):
         if not self.slug:  # Only set slug if empty
             self.slug = slugify(self.category_name)

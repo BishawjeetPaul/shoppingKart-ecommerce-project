@@ -131,28 +131,27 @@ def edit_product(request, product_id):
         category_id         = request.POST.get('category')
         stock               = request.POST.get('stock')
 
-        # try:
-        product.product_name=product_name
-        product.product_description=product_description
-        product.product_price=product_price
-        product.stock=stock
-        category = Category.objects.get(id=category_id)
-        product.category_id=category
+        try:
+            product.product_name=product_name
+            product.product_description=product_description
+            product.product_price=product_price
+            product.stock=stock
+            category = Category.objects.get(id=category_id)
+            product.category_id=category
 
             # Handle image upload
-        if request.FILES.get('product_image'):
-            product.product_image = request.FILES['product_image']
+            if request.FILES.get('product_image'):
+                product.product_image = request.FILES['product_image']
 
             # Update category model
-        product.save()
+            product.save()
 
             # messages.success(request, "Successfully Updated product")
-        return redirect('manage-product')  # ✅ redirect instead of HttpResponseRedirect
+            return redirect('manage-product')  # ✅ redirect instead of HttpResponseRedirect
 
-        # except Exception as e:
+        except Exception as e:
             # messages.error(request, f"Failed to Update product: {str(e)}")
-            # return redirect('edit-product', product_id=product.id)  # ✅ redirect back to edit page
-
+            return redirect('edit-product', product_id=product.id)  # ✅ redirect back to edit page
     return render(request, 'panel/product/edit-product.html', context)
 
 
