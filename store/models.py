@@ -3,6 +3,7 @@ from django.utils.text import slugify
 from django.utils.timezone import now
 from django.db import models
 from category.models import Category
+from django.urls import reverse
 
 
 
@@ -43,6 +44,9 @@ class Product(models.Model):
         if not self.slug:  # Only set slug if empty
             self.slug = slugify(self.product_name)
         super().save(*args, **kwargs)
+
+    def get_url(self):
+        return reverse('product-details', args=[self.category.slug, self.slug])
 
     def __str__(self):
         return f"{self.product_id} - self.prodct_name"
