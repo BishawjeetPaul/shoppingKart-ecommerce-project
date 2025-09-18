@@ -11,7 +11,7 @@
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title" style="color: rgb(46, 237, 16);">Manage - Category</h3>
+                        <h3 class="card-title" style="color: rgb(46, 237, 16);">Manage - Product</h3>
                         <div class="table-responsive">
                             <table class="table table-hover" >
                                 <thead>
@@ -24,6 +24,7 @@
                                         <th class="text-center" style="font-size: 15px;">Description</th>
                                         <th class="text-center" style="font-size: 15px;">Price</th>
                                         <th class="text-center" style="font-size: 15px;">Stock</th>
+                                        <th class="text-center" style="font-size: 15px;">Status</th>
                                         <th class="text-center" style="font-size: 15px;">Action</th>
                                     </tr>
                                 </thead>
@@ -36,8 +37,15 @@
                                         <td class="text-center">{{ product.product_name }}</td>
                                         <td class="text-center">{{ product.slug }}</td>
                                         <td class="text-center">{{ product.product_description }}</td>
-                                        <td class="text-center">{{ product.product_price }}</td>
-                                        <td class="text-center">{{ product.stock }}</td>
+                                        <td class="text-center">₹{{ product.product_price }}/-</td>
+                                        <td class="text-center">{{ product.stock }}.Pc</td>
+                                        <td class="text-center">
+                                            {% if product.stock > 0 %}
+                                                <span style="color:rgb(46, 237, 16)">In Stock</span>
+                                            {% else %}
+                                                <span style="color: rgb(253, 21, 21);">Out of Stock</span>
+                                            {% endif %}
+                                        </td>
                                         <td class="text-center">
                                             <a href="{% url 'edit-product' product.id %}" class="btn btn-sm btn-info">Update</a>&nbsp;
                                             <a href="{% url 'delete-product' product.id %}" class="btn btn-sm btn-danger">Delete</a>

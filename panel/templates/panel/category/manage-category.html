@@ -30,7 +30,7 @@
                                         <td class="text-center"><img src="{{ category.category_image.url }}" style="height:70px; width:auto; max-width:110px; border-radius:5px; object-fit:cover;"></td>
                                         <td class="text-center">{{ category.category_name }}</td>
                                         <td class="text-center">{{ category.slug }}</td>
-                                        <td class="text-center">{{ category.description }}</td>
+                                        <td class="text-center">{{ category.category_description }}</td>
                                         <td class="text-center">
                                             <a href="{% url 'edit-category' category.id %}" class="btn btn-info">Update</a>&nbsp;
                                             <a href="{% url 'delete-category' category.id %}" class="btn btn-danger">Delete</a>
