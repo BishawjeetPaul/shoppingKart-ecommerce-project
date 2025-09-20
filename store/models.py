@@ -49,4 +49,4 @@ class Product(models.Model):
         return reverse('product-details', args=[self.category.slug, self.slug])
 
     def __str__(self):
-        return f"{self.product_id} - self.prodct_name"
+        return f"{self.product_id}- {self.product_name}"
