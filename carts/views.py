@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from store.models import Product
 from carts.models import Cart, CartItem
-from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # Private function.
@@ -33,11 +33,38 @@ def add_cart(request, product_id):
             cart=cart
         )
         cart_item.save()
-    return HttpResponse(cart_item.quantity)
-    exit()
     return redirect('cart')
 
 
 # This function is use for cart page
-def cart(request):
-    return render(request, 'carts/cart.html')
+def cart(request, total=0, quantity=0, cart_items=None):
+    try:
+        cart=Cart.objects.get(cart_id=_cart_id(request))
+        cart_items=CartItem.objects.filter(cart=cart, is_active=True)
+
+        for cart_item in cart_items:
+            total += (cart_item.product.product_price * cart_item.quantity)
+            quantity = cart_item.quantity
+
+        # calculate tax 3 percent of tax in total amount
+        tax = (3 * total)/100
+
+        # split into SGST and CGST (equal half of tax)
+        sgst = tax / 2
+        cgst = tax / 2
+
+        grand_total = total + tax
+            
+    except ObjectDoesNotExist:
+        pass # just ignore
+
+    context = {
+        'cgst': cgst,
+        'sgst': sgst,
+        'tax': tax,
+        'grand_total': grand_total,
+        'total': total,
+        'quantity': quantity,
+        'cart_items': cart_items,
+    }
+    return render(request, 'carts/cart.html', context)
