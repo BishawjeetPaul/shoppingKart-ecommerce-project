@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # custome middleware
+    # add custome middleware
     # 'account.LoginCheckMiddleWare.LoginCheckMiddleWare',
 ]
 
@@ -71,7 +71,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # add custome context-processors
                 'category.context_processors.manu_link',
+                'carts.context_processors.counter',
             ],
         },
     },
@@ -89,7 +91,7 @@ WSGI_APPLICATION = 'shoppingKart.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
+# Add MySQL database configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
