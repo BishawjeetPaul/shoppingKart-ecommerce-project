@@ -4,6 +4,7 @@ from carts.models import CartItem
 from carts.views import _cart_id
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
@@ -22,7 +23,7 @@ def store(request, category_slug=None):
         paged_products = paginator.get_page(page)
         product_count = products.count()
     else:
-        products = Product.objects.all().filter(isDelete=False)
+        products = Product.objects.all().filter(isDelete=False).order_by('id')
         paginator = Paginator(products, 6)
         page = request.GET.get('page')
         paged_products = paginator.get_page(page)
@@ -52,3 +53,21 @@ def product_details(request, category_slug, product_slug):
     }
     return render(request, 'store/product-details.html', context)
 
+
+# This function is use for search products.
+def search(request):
+    products = Product.objects.none()   # safe empty queryset
+    product_count = 0
+    if 'keyword' in request.GET:
+        keyword = request.GET['keyword']
+        if keyword:
+            products = Product.objects.order_by('created_at').filter(
+                Q(product_description__icontains=keyword) | 
+                Q(product_name__icontains=keyword)
+            )
+            product_count = products.count()
+    context = {
+        'products': products,
+        'product_count': product_count
+    }
+    return render(request, 'store/store.html', context)
