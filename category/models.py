@@ -30,7 +30,7 @@ class Category(models.Model):
     category_id             = models.CharField(max_length=20, unique=True, editable=False, default=generate_category_id)
     category_name           = models.CharField(max_length=50, unique=True)
     slug                    = models.SlugField(max_length=100, unique=True)
-    category_description    = models.TextField(max_length=255, blank=True)
+    category_description    = models.TextField(max_length=255, blank=True, null=True)
     category_image          = models.ImageField(upload_to='photos/categories', blank=True)
     isDelete                = models.BooleanField(default=False)
     created_at              = models.DateTimeField(auto_now_add=True)

@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from category.models import Category
 from store.models import Product
-
+from django.db.models import Q
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
 # this function for admin-customization.
@@ -28,11 +29,34 @@ def add_category(request):
 
 # This function for manage category
 def manage_category(request):
-    categories = Category.objects.filter(isDelete=False)
+    categories = Category.objects.filter(isDelete=False).order_by('id')
+    paginator = Paginator(categories, 10)
+    page = request.GET.get('page')
+    categories = paginator.get_page(page)
     context = {
 		'categories': categories,
 	}
     print(categories)
+    return render(request, 'panel/category/manage-category.html', context)
+
+
+# This function for search category
+def search_category(request):
+    categories = Category.objects.none() # safe empty queryset
+    category_count = 0
+    if 'keyword' in request.GET:
+        keyword = request.GET['keyword']
+        if keyword:
+            categories = Category.objects.order_by('created_at').filter(
+                Q(category_name__icontains=keyword) |
+                Q(category_description__icontains=keyword) |
+                Q(slug__icontains=keyword)
+            )
+            category_count = categories.count()
+    context = {
+        'categories': categories,
+        'category_count': category_count
+    }
     return render(request, 'panel/category/manage-category.html', context)
 
 

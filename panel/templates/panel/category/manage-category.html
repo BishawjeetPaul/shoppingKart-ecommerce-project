@@ -1,52 +1,107 @@
 {% extends 'admin-panel.html' %}
 
 {% block content %}
-
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title" style="color: rgb(46, 237, 16);">Manage - Category</h3>
+                        <!-- 🔰 Header row with flex layout -->
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                            <a href="{% url 'manage-category' %}" class="card-title mb-0" style="color: rgb(46, 237, 16);">Manage - Category</a>
+
+                            <!-- 🔍 Search Bar -->
+                            <form method="GET" action="{% url 'search-category' %}" class="d-flex" style="gap:10px;">
+                                <input type="text" name="keyword" class="form-control rounded-pill px-3" placeholder="Search category.." style="max-width: 300px;">
+                                <button type="submit" class="btn btn-success">Search</button>
+                            </form>
+                        </div>
+
+
+                        <!-- 📋 Table -->
                         <div class="table-responsive">
-                            <table class="table table-hover" >
+                            <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th class="text-center" style="font-size: 15px;">SL No.</th>
-                                        <th class="text-center" style="font-size: 15px;">ID</th>
-                                        <th class="text-center" style="font-size: 15px;">Image</th>
-                                        <th class="text-center" style="font-size: 15px;">Category Name</th>
-                                        <th class="text-center" style="font-size: 15px;">Slug</th>
-                                        <th class="text-center" style="font-size: 15px;">Description</th>
-                                        <th class="text-center" style="font-size: 15px;">Action</th>
+                                        <th class="text-center">SL No.</th>
+                                        <th class="text-center">ID</th>
+                                        <th class="text-center">Image</th>
+                                        <th class="text-center">Category Name</th>
+                                        <!-- <th class="text-center">Slug</th> -->
+                                        <th class="text-center">Description</th>
+                                        <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for category in categories %}
                                     <tr>
-                                        <td class="text-center" style="font-size: 15px;">{{forloop.counter}}</td>
-                                        <td class="text-center" style="color: rgb(46, 237, 16);">{{category.category_id}}</td>
-                                        <td class="text-center"><img src="{{ category.category_image.url }}" style="height:70px; width:auto; max-width:110px; border-radius:5px; object-fit:cover;"></td>
+                                        <td class="text-center">{{ forloop.counter }}</td>
+                                        <td class="text-center text-success">{{ category.category_id }}</td>
+                                        <td class="text-center">
+                                            <img src="{{ category.category_image.url }}" 
+                                                 style="height:70px; width:auto; max-width:110px; border-radius:5px; object-fit:cover;">
+                                        </td>
                                         <td class="text-center">{{ category.category_name }}</td>
-                                        <td class="text-center">{{ category.slug }}</td>
+                                        <!-- <td class="text-center">{{ category.slug }}</td> -->
                                         <td class="text-center">{{ category.category_description }}</td>
                                         <td class="text-center">
-                                            <a href="{% url 'edit-category' category.id %}" class="btn btn-info">Update</a>&nbsp;
-                                            <a href="{% url 'delete-category' category.id %}" class="btn btn-danger">Delete</a>
+                                            <a href="{% url 'edit-category' category.id %}" class="btn btn-info btn-sm">Update</a>
+                                            <a href="{% url 'delete-category' category.id %}" class="btn btn-danger btn-sm">Delete</a>
                                         </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">No categories found.</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         </div>
+
+                        <!-- 📄 Pagination -->
+                        {% if categories.has_other_pages %}
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                {% if categories.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link custom-page" href="?page={{ categories.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">Previous</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link custom-page">Previous</span>
+                                    </li>
+                                {% endif %}
+
+                                {% for num in categories.paginator.page_range %}
+                                    {% if categories.number == num %}
+                                        <li class="page-item active">
+                                            <span class="page-link custom-page active-page">{{ num }}</span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link custom-page" href="?page={{ num }}{% if search_query %}&q={{ search_query }}{% endif %}">{{ num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if categories.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link custom-page" href="?page={{ categories.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">Next</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link custom-page">Next</span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
-<!-- main-panel ends -->
-
 {% endblock content %}
