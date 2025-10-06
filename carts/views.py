@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from store.models import Product
 from carts.models import Cart, CartItem
+from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -33,6 +34,8 @@ def add_cart(request, product_id):
             cart=cart
         )
         cart_item.save()
+    # redirect back to product detail page.
+    # return redirect(reverse('product-details', args=[product.category.slug, product.slug]))
     return redirect('cart')
 
 
