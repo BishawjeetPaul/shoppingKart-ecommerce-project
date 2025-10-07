@@ -133,8 +133,38 @@ def add_product(request):
 
 # This function for manage products.
 def manage_product(request):
-    products = Product.objects.filter(isDelete=False)
-    context = {'products': products}
+    products = Product.objects.filter(isDelete=False).order_by('id')
+    paginator = Paginator(products, 10)
+    page = request.GET.get('page')
+    products = paginator.get_page(page)
+    context = {
+        'products': products
+    }
+    print(products)
+    return render(request, 'panel/product/manage-products.html', context)
+
+
+# This function for search category.
+def search_product(request):
+    products = Product.objects.none()
+    products_count = 0
+
+    if 'keyword' in request.GET:
+        keyword = request.GET['keyword']
+        
+        if keyword:
+            products = Product.objects.order_by('created_at').filter(
+                Q(product_name__icontains=keyword) |
+                Q(product_description__icontains=keyword) |
+                Q(slug__icontains=keyword) |
+                Q(product_price__icontains=keyword) |
+                Q(is_available__icontains=keyword)
+            )
+            products_count = products.count()
+        context = {
+            'products': products,
+            'products_count': products_count
+        }
     return render(request, 'panel/product/manage-products.html', context)
 
 
