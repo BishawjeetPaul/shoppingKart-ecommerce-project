@@ -5,6 +5,9 @@ __pycache__/
 *.pyo
 *.egg-info/
 
+# secret key
+secret_key.py
+
 # Environments
 .env/
 venv/
