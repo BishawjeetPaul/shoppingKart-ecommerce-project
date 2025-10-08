@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from store.models import Product
 from carts.models import Cart, CartItem
 from django.urls import reverse
@@ -15,6 +15,11 @@ def _cart_id(request):
 
 # This function is use for item add-cart
 def add_cart(request, product_id):
+    color = request.GET['color']
+    size = request.GET['size']
+
+    # return HttpResponse(color + ' ' + size)
+
     product = Product.objects.get(id=product_id) # get the product
 
     try:
@@ -63,6 +68,8 @@ def cart(request, total=0, quantity=0, cart_items=None):
     try:
         tax = 0
         grand_total = 0
+        cgst = 0
+        sgst = 0
         cart=Cart.objects.get(cart_id=_cart_id(request))
         cart_items=CartItem.objects.filter(cart=cart, is_active=True)
 
@@ -70,10 +77,10 @@ def cart(request, total=0, quantity=0, cart_items=None):
             total += (cart_item.product.product_price * cart_item.quantity)
             quantity = cart_item.quantity
 
-        # calculate tax 3 percent of tax in total amount
-        tax = (3 * total)/100
+        # calculate total tax (5% of total amount)
+        tax = (5 * total) / 100
 
-        # split into SGST and CGST (equal half of tax)
+        # split equally into SGST and CGST (2.5% each)
         sgst = tax / 2
         cgst = tax / 2
 

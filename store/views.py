@@ -47,9 +47,14 @@ def product_details(request, category_slug, product_slug):
     except Exception as e:
         raise e
     
+    size_variations = single_product.variation_set.filter(variation_category='size')
+    color_variations = single_product.variation_set.filter(variation_category='color')
+
     context = {
         'single_product': single_product,
-        'in_cart'       : in_cart
+        'in_cart'       : in_cart,
+        'size_variations': size_variations,
+        'color_variations': color_variations,
     }
     return render(request, 'store/product-details.html', context)
 

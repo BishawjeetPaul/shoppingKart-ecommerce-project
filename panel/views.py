@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from category.models import Category
-from store.models import Product
+from store.models import Product, Variation
 from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
@@ -215,3 +215,40 @@ def delete_product(request, product_id):
     product.isDelete=True
     product.save()
     return redirect('manage-product')
+
+
+# -----------------------VARIATION------------------------ #
+
+# Variation category choices
+variation_category_choice = (
+    ('color', 'color'),
+    ('size', 'size')
+)
+
+def add_variation(request):
+    products = Product.objects.filter(isDelete=False)
+    variations = Variation.objects.all().order_by('-created_at')
+
+    if request.method == 'POST':
+        product_id      = request.POST.get('product')
+        category        = request.POST.get('variation_category')
+        value           = request.POST.get('variation_value')
+        is_active       = request.POST.get('is_active') == 'on'
+
+        product = get_object_or_404(Product, id=product_id)
+
+        # create the variation instance
+        variation = Variation.objects.create(
+            product             = product,
+            variation_category  = category,
+            variation_value     = value,
+            is_active           = is_active
+        )
+        variation.save()
+
+    context = {
+        'products': products,
+        'variations': variations,
+        'variation_category_choice': variation_category_choice
+    }
+    return render(request, 'panel/variation/add-variation.html', context)
