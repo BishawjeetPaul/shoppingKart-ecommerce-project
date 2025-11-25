@@ -44,7 +44,7 @@
                                         </td>
                                         <td class="text-center">{{ category.category_name }}</td>
                                         <!-- <td class="text-center">{{ category.slug }}</td> -->
-                                        <td class="text-center">{{ category.category_description }}</td>
+                                        <td class="text-center fixed-col">{{ category.category_description }}</td>
                                         <td class="text-center">
                                             <a href="{% url 'edit-category' category.id %}" class="btn btn-info btn-sm">Update</a>
                                             <a href="{% url 'delete-category' category.id %}" class="btn btn-danger btn-sm">Delete</a>

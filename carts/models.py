@@ -1,6 +1,6 @@
 import uuid
 from django.db import models
-from store.models import Product
+from store.models import Product, Variation
 
 
 
@@ -16,6 +16,7 @@ class Cart(models.Model):
 
 class CartItem(models.Model):
     id          = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    variations  = models.ManyToManyField(Variation, blank=True)
     product     = models.ForeignKey(Product, on_delete=models.CASCADE)
     cart        = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity    = models.IntegerField()

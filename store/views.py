@@ -10,33 +10,57 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
 
-# This function is use for store.
+# # This function is use for store.
+# def store(request, category_slug=None):
+#     # Base queryset
+#     products = Product.objects.filter(isDelete=False)
+
+#     # Filter by category if provided
+#     if category_slug:
+#         category = get_object_or_404(Category, slug=category_slug)
+#         products = products.filter(category=category)
+#     else:
+#         products = products.order_by('id')
+
+#     # Pagination
+#     paginator = Paginator(products, 9)
+#     page = request.GET.get('page')
+#     paged_products = paginator.get_page(page)
+
+#     # Categories for sidebar
+#     categories = Category.objects.filter(isDelete=False)
+
+#     context = {
+#         'products': paged_products,
+#         'categories': categories,
+#         'product_count': products.count(),
+#     }
+#     return render(request, 'store/store.html', context)
+
+
 def store(request, category_slug=None):
-    categories      = None
-    products        = None
+    products = Product.objects.filter(isDelete=False)
 
-    if category_slug != None:
-        categories = get_object_or_404(Category, slug=category_slug)
-        products = Product.objects.filter(category=categories, isDelete=False)
-        paginator = Paginator(products, 9)
-        page = request.GET.get('page')
-        paged_products = paginator.get_page(page)
-        product_count = products.count()
-    else:
-        products = Product.objects.all().filter(isDelete=False).order_by('id')
-        paginator = Paginator(products, 9)
-        page = request.GET.get('page')
-        paged_products = paginator.get_page(page)
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        products = products.filter(category=category)
 
-    categories = Category.objects.all().filter(isDelete=False)
-    product_count = products.count()
+    # IMPORTANT: add ordering before pagination
+    products = products.order_by('id')
+
+    paginator = Paginator(products, 9)
+    page = request.GET.get('page')
+    paged_products = paginator.get_page(page)
+
+    categories = Category.objects.filter(isDelete=False)
 
     context = {
         'products': paged_products,
         'categories': categories,
-        'product_count': product_count,
+        'product_count': products.count(),
     }
     return render(request, 'store/store.html', context)
+
 
 
 # This function is use for product details.

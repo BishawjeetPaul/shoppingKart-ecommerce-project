@@ -56,11 +56,23 @@ class Product(models.Model):
         return f"{self.product_id}- {self.product_name}"
 
 
+# This class model is use to manage the saize and color variations.
+class VariationManager(models.Manager):
+    # This function for color.
+    def colors(self):
+        return super(VariationManager, self).filter(variation_category='color', is_active=True)
+    
+    # This function for size.
+    def sizes(self):
+        return super(VariationManager, self).filter(variation_category='size', is_active=True)
+
+
 # Variation category choice.
 variation_category_choice = (
     ('color', 'color'),
     ('size', 'size')
 )
+
 
 # This class is used to color or size veriations.
 class Variation(models.Model):
@@ -73,5 +85,7 @@ class Variation(models.Model):
     created_at              = models.DateTimeField(auto_now_add=True)
     updated_at              = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    objects                 = VariationManager()
+
+    def __str__(self):
         return self.product
