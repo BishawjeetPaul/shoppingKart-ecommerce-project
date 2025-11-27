@@ -1,9 +1,25 @@
 {% extends 'admin-panel.html' %}
+{% load static %}
+
+<!-- Custome-CSS -->
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/panel/add-variation.css' %}">
+{% endblock style %}
 
 {% block content %}
 
     <div class="main-panel">
         <div class="content-wrapper">
+            {% if messages %}
+            <div class="mx-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <span class="alert-text">{{ message }}</span>
+                        <!-- <button type="button" class="btn-close alert-close" data-bs-dismiss="alert"></button> -->
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
             <div class="row">
                 <div class="col-12 grid-margin stretch-card">
                     <div class="card">
@@ -54,5 +70,10 @@
             </div>
         </div>
     </div>
+
+<!-- Custom js for this page-->
+{% block scripts %}
+	<script src="{% static 'js/panel/add-variation.js' %}"></script>
+{% endblock scripts %}
 
 {% endblock content %}

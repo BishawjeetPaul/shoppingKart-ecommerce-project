@@ -14,21 +14,22 @@ def admin_panel(request):
 # This function for add category
 def add_category(request):
     if request.method == 'POST':
-        category_name = request.POST.get('category_name')
-        category_description = request.POST.get('category_description')
-        category_image = request.FILES.get('category_image')
-        
-        categories = Category.objects.create(
-            category_name=category_name,
-            category_description=category_description,
-            category_image=category_image
-        )
-        categories.save()
-        messages.success(request, "Category Added Successfully")
-        return redirect('add-category')
-    # else:
-    #     messages.error("Category Added Failed")
-    #     return redirect('add-category')
+        try:
+            category_name = request.POST.get('category_name')
+            category_description = request.POST.get('category_description')
+            category_image = request.FILES.get('category_image')
+            
+            categories = Category.objects.create(
+                category_name=category_name,
+                category_description=category_description,
+                category_image=category_image
+            )
+            categories.save()
+            messages.success(request, "Category Added Successfully")
+            return redirect('add-category')
+        except Exception as e:
+            messages.error(request, "Failed Something went wrong")
+            return redirect('add-category')
     return render(request, 'panel/category/add-category.html')
 
 
@@ -88,7 +89,7 @@ def edit_category(request, category_id):
             return redirect('manage-category')  # ✅ redirect instead of HttpResponseRedirect
 
         except Exception as e:
-            messages.error(request, f"Category Failed to Update: {str(e)}")
+            messages.error(request, "Failed to Update something went wrong")
             return redirect('edit-category', category_id=category.id)  # ✅ redirect back to edit page
 
     return render(request, 'panel/category/edit-category.html', context)
@@ -109,28 +110,32 @@ def add_product(request):
     context = {'categories': categories}
 
     if request.method == 'POST':
-        product_name        = request.POST.get('product_name')
-        product_description = request.POST.get('product_description')
-        product_price       = request.POST.get('product_price')
-        product_image       = request.FILES.get('product_image')
-        stock               = request.POST.get('stock')
-        category_id         = request.POST.get('category')
+        try:
+            product_name        = request.POST.get('product_name')
+            product_description = request.POST.get('product_description')
+            product_price       = request.POST.get('product_price')
+            product_image       = request.FILES.get('product_image')
+            stock               = request.POST.get('stock')
+            category_id         = request.POST.get('category')
 
-        # Fetch category instance
-        category = Category.objects.get(id=category_id)
+            # Fetch category instance
+            category = Category.objects.get(id=category_id)
 
-        # Create product
-        product = Product.objects.create(
-            product_name=product_name,
-            product_description=product_description,
-            product_price=product_price,
-            product_image=product_image,
-            stock=stock,
-            category=category   # ✅ use category instance
-        )
-        product.save()
-        messages.success(request, "Product Added Successfully")
-        return redirect('add-product')
+            # Create product
+            product = Product.objects.create(
+                product_name=product_name,
+                product_description=product_description,
+                product_price=product_price,
+                product_image=product_image,
+                stock=stock,
+                category=category   # ✅ use category instance
+            )
+            product.save()
+            messages.success(request, "Product Added Successfully")
+            return redirect('add-product')
+        except Exception as e:
+            messages.error(request, "Faild to Add something went wrong")
+            return redirect('add-product')
 
         # Optional: redirect after success
         # return redirect('manage_products')  
@@ -211,8 +216,9 @@ def edit_product(request, product_id):
             return redirect('manage-product')  # ✅ redirect instead of HttpResponseRedirect
 
         except Exception as e:
-            # messages.error(request, f"Failed to Update product: {str(e)}")
-            return redirect('edit-product', product_id=product.id)  # ✅ redirect back to edit page
+            messages.error(request, "Failed to Update something went wrong")
+            # return redirect('edit-product', product_id=product.id)  # ✅ redirect back to edit page
+            return redirect('manage-product')
     return render(request, 'panel/product/edit-product.html', context)
 
 
@@ -222,7 +228,6 @@ def delete_product(request, product_id):
     product.isDelete=True
     product.save()
     return redirect('manage-product')
-
 
 # -----------------------VARIATION------------------------ #
 
@@ -237,22 +242,27 @@ def add_variation(request):
     variations = Variation.objects.all().order_by('-created_at')
 
     if request.method == 'POST':
-        product_id      = request.POST.get('product')
-        category        = request.POST.get('variation_category')
-        value           = request.POST.get('variation_value')
-        is_active       = request.POST.get('is_active') == 'on'
+        try:
+            product_id      = request.POST.get('product')
+            category        = request.POST.get('variation_category')
+            value           = request.POST.get('variation_value')
+            is_active       = request.POST.get('is_active') == 'on'
 
-        product = get_object_or_404(Product, id=product_id)
+            product = get_object_or_404(Product, id=product_id)
 
-        # create the variation instance
-        variation = Variation.objects.create(
-            product             = product,
-            variation_category  = category,
-            variation_value     = value,
-            is_active           = is_active
-        )
-        variation.save()
-
+            # create the variation instance
+            variation = Variation.objects.create(
+                product             = product,
+                variation_category  = category,
+                variation_value     = value,
+                is_active           = is_active
+            )
+            variation.save()
+            messages.success(request, "Variation Added Successfully")
+            return redirect('add-variation')
+        except Exception as e:
+            messages.error(request, "Failed Add something went wrong")
+            return redirect('add-variation')
     context = {
         'products': products,
         'variations': variations,
