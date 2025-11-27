@@ -1,9 +1,19 @@
 {% extends 'admin-panel.html' %}
 
+{% load static %}
+
+<!-- Custome-CSS -->
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/panel/add-products.css' %}">
+{% endblock style %}
+
 {% block content %}
 
 <div class="main-panel">
     <div class="content-wrapper">
+        {% for msg in messages %}
+            <div id="message" class="alert alert-success" role="alert">{{ msg }}</div>
+        {% endfor %}
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
@@ -73,5 +83,10 @@
         document.querySelector(".file-upload-info").value = fileName;
     });
 </script>
+
+<!-- Custom js for this page-->
+{% block scripts %}
+	<script src="{% static 'js/panel/add-products.js' %}"></script>
+{% endblock scripts %}
 
 {% endblock content %}

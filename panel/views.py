@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from category.models import Category
 from store.models import Product, Variation
 from django.db.models import Q
+from django.contrib import messages
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
@@ -16,14 +17,18 @@ def add_category(request):
         category_name = request.POST.get('category_name')
         category_description = request.POST.get('category_description')
         category_image = request.FILES.get('category_image')
-
+        
         categories = Category.objects.create(
             category_name=category_name,
             category_description=category_description,
             category_image=category_image
         )
         categories.save()
-
+        messages.success(request, "Category Added Successfully")
+        return redirect('add-category')
+    # else:
+    #     messages.error("Category Added Failed")
+    #     return redirect('add-category')
     return render(request, 'panel/category/add-category.html')
 
 
@@ -79,11 +84,11 @@ def edit_category(request, category_id):
             # Update category model
             category.save()
 
-            # messages.success(request, "Successfully Updated Category")
+            messages.success(request, "Category Updated Successfully")
             return redirect('manage-category')  # ✅ redirect instead of HttpResponseRedirect
 
         except Exception as e:
-            # messages.error(request, f"Failed to Update Category: {str(e)}")
+            messages.error(request, f"Category Failed to Update: {str(e)}")
             return redirect('edit-category', category_id=category.id)  # ✅ redirect back to edit page
 
     return render(request, 'panel/category/edit-category.html', context)
@@ -124,6 +129,8 @@ def add_product(request):
             category=category   # ✅ use category instance
         )
         product.save()
+        messages.success(request, "Product Added Successfully")
+        return redirect('add-product')
 
         # Optional: redirect after success
         # return redirect('manage_products')  
@@ -200,7 +207,7 @@ def edit_product(request, product_id):
             # Update category model
             product.save()
 
-            # messages.success(request, "Successfully Updated product")
+            messages.success(request, "Product Updated Successfully")
             return redirect('manage-product')  # ✅ redirect instead of HttpResponseRedirect
 
         except Exception as e:

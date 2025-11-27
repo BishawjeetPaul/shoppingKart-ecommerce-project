@@ -1,8 +1,17 @@
 {% extends 'admin-panel.html' %}
+{% load static %}
+
+<!-- Custome-CSS -->
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/panel/manage-category.css' %}">
+{% endblock style %}
 
 {% block content %}
 <div class="main-panel">
     <div class="content-wrapper">
+        {% for msg in messages %}
+            <div id="message" class="alert alert-success" role="alert">{{ msg }}</div>
+        {% endfor %}
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
                 <div class="card">
@@ -104,4 +113,10 @@
         </div>
     </div>
 </div>
+
+<!-- Custom js for this page-->
+{% block scripts %}
+	<script src="{% static 'js/panel/manage-category.js' %}"></script>
+{% endblock scripts %}
+
 {% endblock content %}
