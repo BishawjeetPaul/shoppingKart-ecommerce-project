@@ -19,4 +19,5 @@ urlpatterns = [
     path('search/category/', views.search_category, name='search-category'),
     # -----------------------VARIATIONS-URLS--------------------------- #
     path('add/variation/', views.add_variation, name='add-variation'),
+    path('manage/variation/', views.manage_variation, name='manage-variation'),
 ]

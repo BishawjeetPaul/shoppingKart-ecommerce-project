@@ -1,0 +1,225 @@
+{% extends 'admin-panel.html' %}
+
+{% load static %}
+
+<!-- Custome-CSS -->
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/panel/manage-variation.css' %}">
+{% endblock style %}
+
+{% block content %}
+
+<!-- partial -->
+<div class="main-panel">
+    <div class="content-wrapper">
+        {% if messages %}
+            <div class="mt-2 mx-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <span class="alert-text">{{ message }}</span>
+                        <!-- <button type="button" class="btn-close alert-close" data-bs-dismiss="alert"></button> -->
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="row">
+            <!-- COLOR-TABLE -->
+            <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- 🔰 Header row with flex layout -->
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                            <a href="" class="card-title mb-0" style="color: rgb(46, 237, 16);">Manage - Color</a>
+
+                            <!-- 🔍 Search Bar -->
+                            <form method="GET" action="" class="d-flex" style="gap:10px;">
+                                <input type="text" name="keyword" class="form-control rounded-pill px-3" placeholder="Search Color.." style="max-width: 300px;">
+                                <button type="submit" class="btn btn-success">Search</button>
+                            </form>
+                        </div>
+
+                        <!-- 📋 Table -->
+                        <div class="table-responsive">
+                            <table class="table table-hover" >
+                                <thead>
+                                    <tr>
+                                        <th class="text-center pl-2" style="font-size: 12px;">SL No.</th>
+                                        <th class="text-center pl-2" style="font-size: 12px;">Product</th>
+                                        <th class="text-center pl-2" style="font-size: 12px;">Color</th>
+                                        <th class="text-center pl-2" style="font-size: 12px;">Status</th>
+                                        <th class="text-center pl-2" style="font-size: 12px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for color in color_variations %}
+                                    <tr>
+                                        <td class="text-center pl-2" style="font-size: 12px;">{{forloop.counter}}</td>
+                                        <td class="text-center pl-2" style="color: rgb(46, 237, 16); font-size: 12px;">{{color.product.product_name}}</td>
+                                        <td class="text-center pl-2" style="font-size: 12px;">{{color.variation_value}}</td>
+                                        <td class="text-center pl-2" style="font-size: 12px;">
+                                            {% if product.is_active == 1 %}
+                                                <span style="color:rgb(46, 237, 16)">In Stock</span>
+                                            {% else %}
+                                                <span style="color: rgb(253, 21, 21);">Out of Stock</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center pl-2">
+                                            <a href="" class="btn btn-sm btn-info" style="font-size: 12px;">Update</a>&nbsp;
+                                            <a href="" class="btn btn-sm btn-danger" style="font-size: 12px;">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 📄 Pagination for Color Table -->
+                        {% if color_variations.has_other_pages %}
+                            <nav aria-label="Page navigation" class="mt-4">
+                                <ul class="pagination justify-content-center">
+
+                                    {% if color_variations.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link custom-page" href="?color_page={{ color_variations.previous_page_number }}">Previous</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link custom-page">Previous</span>
+                                        </li>
+                                    {% endif %}
+
+                                    {% for num in color_variations.paginator.page_range %}
+                                        {% if color_variations.number == num %}
+                                            <li class="page-item active">
+                                                <span class="page-link custom-page active-page">{{ num }}</span>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item">
+                                                <a class="page-link custom-page" href="?color_page={{ num }}">{{ num }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if color_variations.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link custom-page" href="?color_page={{ color_variations.next_page_number }}">Next</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link custom-page">Next</span>
+                                        </li>
+                                    {% endif %}
+
+                                </ul>
+                            </nav>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+            <!-- SIZE-TABLE -->
+            <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- 🔰 Header row with flex layout -->
+                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+                            <a href="" class="card-title mb-0" style="color: rgb(46, 237, 16);">Manage - size</a>
+
+                            <!-- 🔍 Search Bar -->
+                            <form method="GET" action="" class="d-flex" style="gap:10px;">
+                                <input type="text" name="keyword" class="form-control rounded-pill px-3" placeholder="Search Color.." style="max-width: 300px;">
+                                <button type="submit" class="btn btn-success">Search</button>
+                            </form>
+                        </div>
+
+                        <!-- 📋 Table -->
+                        <div class="table-responsive">
+                            <table class="table table-hover" >
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="font-size: 12px;">SL No.</th>
+                                        <th class="text-center" style="font-size: 12px;">Product</th>
+                                        <th class="text-center" style="font-size: 12px;">Color</th>
+                                        <th class="text-center" style="font-size: 12px;">Status</th>
+                                        <th class="text-center" style="font-size: 12px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for size in size_variations %}
+                                    <tr>
+                                        <td class="text-center" style="font-size: 12px;">{{forloop.counter}}</td>
+                                        <td class="text-center" style="color: rgb(46, 237, 16); font-size: 12px;">{{size.product.product_name}}</td>
+                                        <td class="text-center" style="font-size: 12px;">{{size.variation_value}}</td>
+                                        <td class="text-center" style="font-size: 12px;">
+                                            {% if size.is_active == 1 %}
+                                                <span style="color:rgb(46, 237, 16)" style="font-size: 12px;">In Stock</span>
+                                            {% else %}
+                                                <span style="color: rgb(253, 21, 21);" style="font-size: 12px;">Out of Stock</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="" class="btn btn-sm btn-info" style="font-size: 12px;">Update</a>&nbsp;
+                                            <a href="" class="btn btn-sm btn-danger" style="font-size: 12px;">Delete</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 📄 Pagination for Color Table -->
+                        {% if size_variations.has_other_pages %}
+                            <nav aria-label="Page navigation" class="mt-4">
+                                <ul class="pagination justify-content-center">
+
+                                    {% if size_variations.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link custom-page" href="?size_page={{ size_variations.previous_page_number }}">Previous</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link custom-page">Previous</span>
+                                        </li>
+                                    {% endif %}
+
+                                    {% for num in color_variations.paginator.page_range %}
+                                        {% if color_variations.number == num %}
+                                            <li class="page-item active">
+                                                <span class="page-link custom-page active-page">{{ num }}</span>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item">
+                                                <a class="page-link custom-page" href="?size_page={{ num }}">{{ num }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {% if size_variations.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link custom-page" href="?sze_page={{ size_variations.next_page_number }}">Next</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link custom-page">Next</span>
+                                        </li>
+                                    {% endif %}
+
+                                </ul>
+                            </nav>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- main-panel ends -->
+
+<!-- Custom js for this page-->
+{% block scripts %}
+	<script src="{% static 'js/panel/manage-variation.js' %}"></script>
+{% endblock scripts %}
+
+{% endblock content %}

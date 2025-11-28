@@ -237,6 +237,8 @@ variation_category_choice = (
     ('size', 'size')
 )
 
+
+# This function for add-variations
 def add_variation(request):
     products = Product.objects.filter(isDelete=False)
     variations = Variation.objects.all().order_by('-created_at')
@@ -269,3 +271,30 @@ def add_variation(request):
         'variation_category_choice': variation_category_choice
     }
     return render(request, 'panel/variation/add-variation.html', context)
+
+
+# This function for manage-variation
+def manage_variation(request):
+    # Filter Colors & Size Separately
+    color_variations = Variation.objects.filter(variation_category="color", isDelete=False).order_by('id')
+    size_variations = Variation.objects.filter(variation_category='size', isDelete=False).order_by('id')
+
+    # Paginate both tables (Optional)
+    color_paginator = Paginator(color_variations, 10)
+    size_paginator = Paginator(size_variations, 10)
+
+    color_page = request.GET.get('color_page')
+    size_page = request.GET.get('size_page')
+
+    color_variations = color_paginator.get_page(color_page)
+    size_variations = size_paginator.get_page(size_page)
+
+    # variations = Variation.objects.filter(is_active=False).order_by('id')
+    # paginator = Paginator(variations, 10)
+    # page = request.GET.get('page')
+    # variations = paginator.get_page(page)
+    context = {
+        'color_variations': color_variations,
+        'size_variations': size_variations
+    }
+    return render(request, 'panel/variation/manage-variation.html', context)
