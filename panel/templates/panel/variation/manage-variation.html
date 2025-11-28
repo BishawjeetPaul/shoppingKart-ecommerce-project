@@ -182,8 +182,8 @@
                                         </li>
                                     {% endif %}
 
-                                    {% for num in color_variations.paginator.page_range %}
-                                        {% if color_variations.number == num %}
+                                    {% for num in size_variations.paginator.page_range %}
+                                        {% if size_variations.number == num %}
                                             <li class="page-item active">
                                                 <span class="page-link custom-page active-page">{{ num }}</span>
                                             </li>
@@ -196,7 +196,7 @@
 
                                     {% if size_variations.has_next %}
                                         <li class="page-item">
-                                            <a class="page-link custom-page" href="?sze_page={{ size_variations.next_page_number }}">Next</a>
+                                            <a class="page-link custom-page" href="?size_page={{ size_variations.next_page_number }}">Next</a>
                                         </li>
                                     {% else %}
                                         <li class="page-item disabled">
