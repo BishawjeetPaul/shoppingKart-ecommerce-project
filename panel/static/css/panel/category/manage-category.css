@@ -17,8 +17,8 @@
 /* Error message styling */
 .alert-danger, .alert-error {
     background-color: #f8d7da;
-    border-left: 6px solid #dc3545;
-    color: #721c24;
+    /* border-left: 6px solid #dc3545; */
+    /* color: #721c24; */
 }
 
 /* Close button styling */

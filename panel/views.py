@@ -4,13 +4,17 @@ from store.models import Product, Variation
 from django.db.models import Q
 from django.contrib import messages
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from store.models import variation_category_choice   # if you store choices her
 
 
-# this function for admin-customization.
+
+
+# This function for admin-customization.
 def admin_panel(request):
     return render(request, 'admin-panel.html')
 
 # --------------------CATEGORY-FUNCTIONS------------------ #
+
 # This function for add category
 def add_category(request):
     if request.method == 'POST':
@@ -28,7 +32,7 @@ def add_category(request):
             messages.success(request, "Category Added Successfully")
             return redirect('add-category')
         except Exception as e:
-            messages.error(request, "Failed Something went wrong")
+            messages.error(request, "Failed to Added category. Something went wrong")
             return redirect('add-category')
     return render(request, 'panel/category/add-category.html')
 
@@ -89,7 +93,7 @@ def edit_category(request, category_id):
             return redirect('manage-category')  # ✅ redirect instead of HttpResponseRedirect
 
         except Exception as e:
-            messages.error(request, "Failed to Update something went wrong")
+            messages.error(request, "Failed to update category. Something went wrong")
             return redirect('edit-category', category_id=category.id)  # ✅ redirect back to edit page
 
     return render(request, 'panel/category/edit-category.html', context)
@@ -98,8 +102,12 @@ def edit_category(request, category_id):
 # This function is use for delete category
 def delete_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
-    category.isDelete=True
-    category.save()
+    try:
+        category.isDelete=True
+        category.save()
+        messages.success(request, "Category deleted successfully!")
+    except:
+        messages.error(request, "Something went wrong. Could not delete category.")
     return redirect('manage-category')
 
 # --------------------PRODUCT-FUNCTIONS------------------- #
@@ -134,13 +142,13 @@ def add_product(request):
             messages.success(request, "Product Added Successfully")
             return redirect('add-product')
         except Exception as e:
-            messages.error(request, "Faild to Add something went wrong")
+            messages.error(request, "Faild to Added product. Something went wrong")
             return redirect('add-product')
 
         # Optional: redirect after success
         # return redirect('manage_products')  
 
-    return render(request, 'panel/product/add-products.html', context)
+    return render(request, 'panel/products/add-products.html', context)
 
 
 # This function for manage products.
@@ -153,7 +161,7 @@ def manage_product(request):
         'products': products
     }
     print(products)
-    return render(request, 'panel/product/manage-products.html', context)
+    return render(request, 'panel/products/manage-products.html', context)
 
 
 # This function for search category.
@@ -177,7 +185,7 @@ def search_product(request):
             'products': products,
             'products_count': products_count
         }
-    return render(request, 'panel/product/manage-products.html', context)
+    return render(request, 'panel/products/manage-products.html', context)
 
 
 # This function for edit-product
@@ -216,17 +224,21 @@ def edit_product(request, product_id):
             return redirect('manage-product')  # ✅ redirect instead of HttpResponseRedirect
 
         except Exception as e:
-            messages.error(request, "Failed to Update something went wrong")
-            # return redirect('edit-product', product_id=product.id)  # ✅ redirect back to edit page
-            return redirect('manage-product')
-    return render(request, 'panel/product/edit-product.html', context)
+            messages.error(request, "Failed to update product. Something went wrong")
+            return redirect('edit-product', product_id=product.id)  # ✅ redirect back to edit page
+            # return redirect('manage-product')
+    return render(request, 'panel/products/edit-product.html', context)
 
 
 # This function for delete-product.
 def delete_product(request, product_id):
     product = Product.objects.get(id=product_id)
-    product.isDelete=True
-    product.save()
+    try:
+        product.isDelete=True
+        product.save()
+        messages.success(request, "Product deleted successfully!")
+    except:
+        messages.error(request, "Something went wrong. Could not delete product.")
     return redirect('manage-product')
 
 # -----------------------VARIATION------------------------ #
@@ -298,3 +310,49 @@ def manage_variation(request):
         'size_variations': size_variations
     }
     return render(request, 'panel/variation/manage-variation.html', context)
+
+
+# This function for edit-variation
+def edit_variation(request, variation_id):
+    variation = get_object_or_404(Variation, id=variation_id)
+    products = Product.objects.filter(isDelete=False).order_by('product_name')
+    context = {
+        'variation': variation,
+        'products': products,
+        'variation_category_choice': variation_category_choice
+    }
+    
+    if request.method == 'POST':
+        product_id          = request.POST.get('product')
+        variation_category  = request.POST.get('variation_category')
+        variation_value     = request.POST.get('variation_value')
+        is_active           = request.POST.get('is_active') == 'on'
+
+        try:
+            variation.variation_category=variation_category
+            variation.variation_value=variation_value
+            variation.is_active=is_active
+            product = Product.objects.get(id=product_id)
+            variation.product_id=product
+            # Update Variation model
+            variation.save()
+
+            messages.success(request, "Variation Updated Successfully")
+            return redirect('manage-variation')  # ✅ redirect instead of HttpResponseRedirect
+        except Exception as e:
+            messages.error(request, "Failed to Update something went wrong")
+            return redirect('edit-variation', variation_id=variation.id)  # ✅ redirect back to edit page
+    return render(request, 'panel/variation/edit-variation.html', context)
+
+
+# This function for delete-variation
+def delete_variation(request, variation_id):
+    variation = Variation.objects.get(id=variation_id)
+    try:
+        variation.isDelete=True
+        variation.save()
+        messages.success(request, "Variation deleted successfully!")
+    except:
+        messages.error(request, "Something went wrong. Could not delete variation.")
+    return redirect('manage-variation')
+

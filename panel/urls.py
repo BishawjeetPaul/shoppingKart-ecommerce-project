@@ -20,4 +20,7 @@ urlpatterns = [
     # -----------------------VARIATIONS-URLS--------------------------- #
     path('add/variation/', views.add_variation, name='add-variation'),
     path('manage/variation/', views.manage_variation, name='manage-variation'),
+    path('edit/variation/<uuid:variation_id>/', views.edit_variation, name='edit-variation'),
+    path('delete/variation/<uuid:variation_id>/', views.delete_variation, name='delete-variation'),
+
 ]

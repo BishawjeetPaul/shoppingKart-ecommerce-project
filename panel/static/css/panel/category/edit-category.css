@@ -1,0 +1,33 @@
+.custom-alert {
+    position: relative;
+    padding: 15px 40px 15px 20px; 
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Success message styling */
+.alert-success {
+    background-color: #58fa6d;
+    /* border-left: 6px solid #28a745; */
+    /* color: #155724; */
+}
+
+/* Error message styling */
+.alert-danger, .alert-error {
+    background-color: #f8d7da;
+    /* border-left: 6px solid #dc3545; */
+    /* color: #721c24; */
+}
+
+/* Close button styling */
+.alert-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px !important;    /* increase width */
+    height: 20px !important;   /* increase height */
+    background-size: 20px !important;  /* scale the icon */
+    outline: none !important;
+}
