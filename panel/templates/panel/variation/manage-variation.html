@@ -32,8 +32,8 @@
                             <a href="" class="card-title mb-0" style="color: rgb(46, 237, 16);">Manage - Color</a>
 
                             <!-- 🔍 Search Bar -->
-                            <form method="GET" action="" class="d-flex" style="gap:10px;">
-                                <input type="text" name="keyword" class="form-control rounded-pill px-3" placeholder="Search Color.." style="max-width: 300px;">
+                            <form method="GET" action="{% url 'search-color-variation' %}" class="d-flex" style="gap:10px;">
+                                <input type="text" name="keyword1" class="form-control rounded-pill px-3" placeholder="Search Color.." style="max-width: 300px;">
                                 <button type="submit" class="btn btn-success">Search</button>
                             </form>
                         </div>
@@ -126,8 +126,8 @@
                             <a href="" class="card-title mb-0" style="color: rgb(46, 237, 16);">Manage - size</a>
 
                             <!-- 🔍 Search Bar -->
-                            <form method="GET" action="" class="d-flex" style="gap:10px;">
-                                <input type="text" name="keyword" class="form-control rounded-pill px-3" placeholder="Search Color.." style="max-width: 300px;">
+                            <form method="GET" action="{% url 'search-size-variation' %}" class="d-flex" style="gap:10px;">
+                                <input type="text" name="keyword2" class="form-control rounded-pill px-3" placeholder="Search Color.." style="max-width: 300px;">
                                 <button type="submit" class="btn btn-success">Search</button>
                             </form>
                         </div>

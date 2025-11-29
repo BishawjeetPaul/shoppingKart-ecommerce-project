@@ -22,5 +22,7 @@ urlpatterns = [
     path('manage/variation/', views.manage_variation, name='manage-variation'),
     path('edit/variation/<uuid:variation_id>/', views.edit_variation, name='edit-variation'),
     path('delete/variation/<uuid:variation_id>/', views.delete_variation, name='delete-variation'),
+    path('search/variation/color/', views.search_color_variation, name='search-color-variation'),
+    path('search/variation/size/', views.search_size_variation, name='search-size-variation'),
 
 ]

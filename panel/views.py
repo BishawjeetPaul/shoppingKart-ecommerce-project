@@ -181,10 +181,10 @@ def search_product(request):
                 Q(is_available__icontains=keyword)
             )
             products_count = products.count()
-        context = {
-            'products': products,
-            'products_count': products_count
-        }
+    context = {
+        'products': products,
+        'products_count': products_count
+    }
     return render(request, 'panel/products/manage-products.html', context)
 
 
@@ -311,6 +311,61 @@ def manage_variation(request):
     }
     return render(request, 'panel/variation/manage-variation.html', context)
 
+
+# This function for search-color-variation.
+def search_color_variation(request):
+    # Base QuerySets
+    color_variations = Variation.objects.filter(variation_category="color", isDelete=False).order_by('id')
+    color_variation_count = 0
+
+    keyword1 = request.GET.get('keyword1', '').strip()
+
+    if keyword1:
+        color_variations = color_variations.filter(
+            Q(product__product_name__icontains=keyword1) |
+            Q(variation_value__icontains=keyword1)
+        )
+        color_variation_count = color_variations.count()
+
+    # Pagination AFTER search
+    color_paginator = Paginator(color_variations, 10)
+    color_page = request.GET.get('color_page')
+    color_variations = color_paginator.get_page(color_page)
+
+    context = {
+        'color_variation_count': color_variation_count,
+        'color_variations': color_variations,
+        'keyword1': keyword1           
+    }
+    return render(request, 'panel/variation/manage-variation.html', context)
+
+
+# This function for search-size-variation.
+def search_size_variation(request):
+    # Base QuerySets
+    size_variations = Variation.objects.filter(variation_category="size", isDelete=False).order_by('id')
+    size_variation_count = 0
+
+    keyword2 = request.GET.get('keyword2', '').strip()
+
+    if keyword2:
+        size_variations = size_variations.filter(
+            Q(product__product_name__icontains=keyword2) |
+            Q(variation_value__icontains=keyword2)
+        )
+        size_variation_count = size_variations.count()
+
+    # Pagination AFTER search
+    size_paginator = Paginator(size_variations, 10)
+    size_page = request.GET.get('size_page')
+    size_variations = size_paginator.get_page(size_page)
+
+    context = {
+        'size_variation_count': size_variation_count,
+        'size_variations': size_variations,
+        'keyword2': keyword2           
+    }
+    return render(request, 'panel/variation/manage-variation.html', context)
 
 # This function for edit-variation
 def edit_variation(request, variation_id):
