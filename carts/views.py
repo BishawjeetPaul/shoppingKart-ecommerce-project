@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 
 
+
 # Private function.
 def _cart_id(request):
     cart = request.session.session_key
@@ -38,6 +39,11 @@ def add_cart(request, product_id):
 
     try:
         cart_item = CartItem.objects.get(product=product, cart=cart)
+        # add color and size
+        if len(product_variation) > 0: # check the length of the product_variation
+            cart_item.variations.clear() # clear the variations first befor adding cart_item
+            for item in product_variation: # loop the product_variation
+                cart_item.variations.add(item) # add the item variation like 'color' & 'size'
         cart_item.quantity += 1 # cart_item.quantity = cart_item.quantity + 1
         cart_item.save()
     except CartItem.DoesNotExist:
@@ -46,11 +52,14 @@ def add_cart(request, product_id):
             quantity=1,
             cart=cart
         )
+        if len(product_variation) > 0: # check the length of the product_variation
+            cart_item.variations.clear() # clear the variations first befor adding cart_item
+            for item in product_variation: # loop the product_variation
+                cart_item.variations.add(item) # add the item variation like 'color' & 'size'
         cart_item.save()
     # redirect back to product detail page.
     return redirect(reverse('product-details', args=[product.category.slug, product.slug]))
     
-
 
 # This function is use to add-cart-item
 def add_cart_item(request, product_id):
